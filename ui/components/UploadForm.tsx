@@ -46,7 +46,7 @@ export default function UploadForm({
       <Button
         onClick={handleUpload}
         disabled={loading || !file}
-        className="text-white shadow-[6px_6px_0px_black] hover:shadow-[1px_1px_0px_black] transition-all duration-200"
+        className="text-white shadow-[6px_6px_0px_black] hover:shadow-[1px_1px_0px_black] transition-all duration-200 bg-green-500"
       >
         {loading ? "Processing..." : "Removing Background"}
       </Button>
