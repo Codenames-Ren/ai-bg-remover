@@ -20,15 +20,29 @@ export default function UploadForm({
     formData.append("file", file);
 
     setLoading(true);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/remove-bg`, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/remove-bg`, {
+        method: "POST",
+        body: formData,
+      });
+      console.log("Content-Type:", res.headers.get("content-type"));
 
-    const blob = await res.blob();
-    const imageUrl = URL.createObjectURL(blob);
-    onImageProcessed(imageUrl);
-    setLoading(false);
+      if (!res.ok) {
+        console.error("Failed response:", res.status);
+        setLoading(false);
+        return;
+      }
+
+      const blob = await res.blob();
+      console.log("Blob size:", blob.size); // 👈 tambahkan ini
+
+      const imageUrl = URL.createObjectURL(blob);
+      onImageProcessed(imageUrl);
+    } catch (err) {
+      console.error("Upload error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
