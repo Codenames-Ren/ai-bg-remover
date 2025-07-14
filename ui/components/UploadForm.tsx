@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import { Car } from "lucide-react";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 export default function UploadForm({
   onImageProcessed,
@@ -19,7 +20,7 @@ export default function UploadForm({
     formData.append("file", file);
 
     setLoading(true);
-    const res = await fetch("/remove-bg", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/remove-bg`, {
       method: "POST",
       body: formData,
     });
@@ -31,15 +32,23 @@ export default function UploadForm({
   };
 
   return (
-    <Card className="p-4">
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
-        className="mb-2"
-      />
-      <Button onClick={handleUpload} disabled={loading || !file}>
-        {loading ? "Processing..." : "Removing Backgrund"}
+    <Card className="p-10 bg-blue-700 shadow-[12px_12px_0px_black] hover:shadow-[2px_2px_0px_black] transition-all duration-200 text-white">
+      <div className="grid w-full max-w-80 items-center gap-1.5">
+        <Label htmlFor="picture">Picture</Label>
+        <Input
+          id="picture"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setFile(e.target.files?.[0] || null)}
+          className="text-white shadow-[6px_6px_0px_black] hover:shadow-[1px_1px_0px_black] transition-all duration-200"
+        />
+      </div>
+      <Button
+        onClick={handleUpload}
+        disabled={loading || !file}
+        className="text-white shadow-[6px_6px_0px_black] hover:shadow-[1px_1px_0px_black] transition-all duration-200"
+      >
+        {loading ? "Processing..." : "Removing Background"}
       </Button>
     </Card>
   );
