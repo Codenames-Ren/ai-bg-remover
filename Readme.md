@@ -1,1 +1,1 @@
-# ai-bg-remover
+# ai-bg-remover.
